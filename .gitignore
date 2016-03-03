@@ -1,0 +1,14 @@
+*.ipr
+*.iml
+*.iws
+application.yml
+.gradle
+out
+build
+manifest*.yml
+/bin/
+.project
+.classpath
+.settings
+/.apt_generated/
+.factorypath
