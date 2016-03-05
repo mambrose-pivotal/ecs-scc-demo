@@ -1,32 +1,30 @@
 package com.emc.ecs.config;
 
-import javax.sql.DataSource;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.config.java.AbstractCloudConfig;
-import org.springframework.cloud.service.PooledServiceConnectorConfig;
-import org.springframework.cloud.service.relational.DataSourceConfig;
+import org.springframework.cloud.config.java.ServiceScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import com.emc.ecs.connector.spring.S3Connector;
+import com.orange.spring.cloud.connector.s3.core.jcloudswrappers.SpringCloudBlobStore;
+import com.orange.spring.cloud.connector.s3.core.jcloudswrappers.SpringCloudBlobStoreContext;
 
 @Configuration
+@ServiceScan // Automatically creates dataSource bean based on bindings
 @Profile("cloud")
 public class CloudConfig extends AbstractCloudConfig {
-
-	@Bean
-	public DataSource dataSource() {
-        // Default pool size to 4 connections to support ClearDB Spark (free)
-    	PooledServiceConnectorConfig.PoolConfig poolConfig =
-                new PooledServiceConnectorConfig.PoolConfig(4, 200);
-        DataSourceConfig config = new DataSourceConfig(poolConfig, new DataSourceConfig.ConnectionConfig(""));
-		return connectionFactory().dataSource(config);
-	}
+	
+	@Autowired
+	// Requires ServiceScan, but doesn't auto-generate blobStore bean
+	private SpringCloudBlobStoreContext springCloudBlobStoreContext;
 	
 	@Bean
-    public S3Connector s3() {
-        return connectionFactory().service(S3Connector.class);
+	public SpringCloudBlobStore blobStore() {
+		SpringCloudBlobStore blobStore = this.springCloudBlobStoreContext.getSpringCloudBlobStore();
+		// Set bucket to public-read is erroring out ATM.
+		// Manually set bucket group ACL to READ.
+		// blobStore.setContainerAccess(ContainerAccess.PUBLIC_READ);
+		return blobStore;
     }
-
 }

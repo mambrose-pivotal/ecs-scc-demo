@@ -19,11 +19,10 @@ public class DemoFile {
 	public DemoFile() {
 	}
 	
-	public DemoFile(String id, String objectKey, String url, File file) {
+	public DemoFile(String id, String objectKey, String url) {
 		this.id = id;
 		this.objectKey = objectKey;
 		this.url = url;
-		this.file = file;
 	}
 
 	public String getId() {
@@ -38,8 +37,4 @@ public class DemoFile {
 		return url;
 	}
 	
-	public File getFile() {
-		return file;
-	}
-
 }
