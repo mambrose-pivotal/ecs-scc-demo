@@ -6,7 +6,6 @@ import java.util.UUID;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jclouds.blobstore.domain.Blob;
-import org.jclouds.blobstore.domain.BlobAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -62,7 +61,6 @@ public class DemoController {
 						.contentLength(file.getSize())
 						.build();
 		blobStore.putBlob(blob);
-		blobStore.setBlobAccess(key, BlobAccess.PUBLIC_READ);
 		String url = blobStore.blobMetadata(key).getPublicUri().toString();
 		DemoFile demoFile = new DemoFile(id, key, url);
 		log.info(demoFile.getObjectKey() + " put to S3. URL: " + url);
