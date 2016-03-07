@@ -1,5 +1,6 @@
 package com.emc.ecs.config;
 
+import org.jclouds.blobstore.domain.ContainerAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.config.java.AbstractCloudConfig;
 import org.springframework.cloud.config.java.ServiceScan;
@@ -24,7 +25,7 @@ public class CloudConfig extends AbstractCloudConfig {
 		SpringCloudBlobStore blobStore = this.springCloudBlobStoreContext.getSpringCloudBlobStore();
 		// Set bucket to public-read is erroring out ATM.
 		// Manually set bucket group ACL to READ.
-		// blobStore.setContainerAccess(ContainerAccess.PUBLIC_READ);
+		blobStore.setContainerAccess(ContainerAccess.PUBLIC_READ);
 		return blobStore;
     }
 }
