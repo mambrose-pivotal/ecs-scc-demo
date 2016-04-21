@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.emc.ecs.connector.spring.S3Connector;
+import com.emc.ecs.config.S3Connector;
 import com.emc.ecs.data.DemoFile;
 import com.emc.ecs.data.DemoRepository;
 
@@ -73,7 +73,7 @@ public class DemoController {
 		putObjectRequest.withCannedAcl(CannedAccessControlList.PublicRead);
 		s3.getClient().putObject(putObjectRequest);
 		String url = Arrays
-				.asList(s3.getBaseUrl(), s3.getBucket(), id, fileName).stream()
+				.asList("http://s3.amazonws.com", s3.getBucket(), id, fileName).stream()
 				.collect(Collectors.joining("/"));
 		DemoFile demoFile = new DemoFile(id, key, url, uploadedFile);
 		log.info(demoFile.getObjectKey() + " put to S3.");
