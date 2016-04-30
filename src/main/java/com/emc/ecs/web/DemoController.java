@@ -73,7 +73,7 @@ public class DemoController {
 		putObjectRequest.withCannedAcl(CannedAccessControlList.PublicRead);
 		s3.getClient().putObject(putObjectRequest);
 		String url = Arrays
-				.asList("http://s3.amazonws.com", s3.getBucket(), id, fileName).stream()
+				.asList("http://s3.amazonaws.com", s3.getBucket(), id, fileName).stream()
 				.collect(Collectors.joining("/"));
 		DemoFile demoFile = new DemoFile(id, key, url, uploadedFile);
 		log.info(demoFile.getObjectKey() + " put to S3.");

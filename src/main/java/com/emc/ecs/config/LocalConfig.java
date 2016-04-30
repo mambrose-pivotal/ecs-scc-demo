@@ -18,7 +18,7 @@ import com.amazonaws.services.s3.S3ClientOptions;
 
 @Configuration
 @Profile("cloud")
-public class CloudConfig extends AbstractCloudConfig {
+public class LocalConfig extends AbstractCloudConfig {
 	
 	@Autowired
 	private S3Configuration s3Configuration;
