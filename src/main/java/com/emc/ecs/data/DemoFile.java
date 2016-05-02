@@ -17,6 +17,7 @@ public class DemoFile {
 	private String url;
 	
 	public DemoFile() {
+		super();
 	}
 	
 	public DemoFile(String id, String objectKey, String url, File file) {
