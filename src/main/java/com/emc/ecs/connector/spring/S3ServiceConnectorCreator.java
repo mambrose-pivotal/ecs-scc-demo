@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.cloud.service.AbstractServiceConnectorCreator;
 import org.springframework.cloud.service.ServiceConnectorConfig;
 
+import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
@@ -19,11 +20,12 @@ public class S3ServiceConnectorCreator
 	@Override
 	public S3Connector create(S3ServiceInfo serviceInfo,
 			ServiceConnectorConfig serviceConnectorConfig) {
-		S3ClientOptions options = new S3ClientOptions();
-		options.setPathStyleAccess(true);
+		ClientConfiguration clientConfig = new ClientConfiguration();
+		clientConfig.setSignerOverride("S3SignerType");
+		S3ClientOptions options = S3ClientOptions.builder().setPathStyleAccess(true).build();
 		AWSCredentials awsCredentials = new BasicAWSCredentials(
 				serviceInfo.getAwsAccessKey(), serviceInfo.getAwsSecretKey());
-		AmazonS3 amazonS3 = new AmazonS3Client(awsCredentials);
+		AmazonS3 amazonS3 = new AmazonS3Client(awsCredentials, clientConfig);
 		amazonS3.setEndpoint(serviceInfo.getEndpoint());
 		amazonS3.setS3ClientOptions(options);
 		log.info("Using S3 Bucket: " + serviceInfo.getBucket());
