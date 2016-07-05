@@ -7,42 +7,52 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "s3")
 public class S3Configuration {
 
-    private String awsAccessKey;
-    private String awsSecretKey;
+    private String accessKey;
+    private String secretKey;
 	private String bucket;
+	private String endpoint;
 
 	public S3Configuration() {
 		super();
 	}
 
-	public void setAwsAccessKey(String awsAccessKey) {
-		this.awsAccessKey = awsAccessKey;
+	public void setAccessKey(String accessKey) {
+		this.accessKey = accessKey;
 	}
 
-	public S3Configuration(String awsAccessKey, String awsSecretKey, String bucket) {
+	public S3Configuration(String accessKey, String secretKey, String bucket, String endpoint) {
         super();
-        this.awsAccessKey = awsAccessKey;
-        this.awsSecretKey = awsSecretKey;
+        this.accessKey = accessKey;
+        this.secretKey = secretKey;
+        this.endpoint = endpoint;
         this.bucket = bucket;
     }
 
-    public String getAwsAccessKey() {
-        return awsAccessKey;
+    public String getAccessKey() {
+        return accessKey;
     }
 
-    public String getAwsSecretKey() {
-        return awsSecretKey;
+    public String getSecretKey() {
+        return secretKey;
     }
 
     public String getBucket() {
         return bucket;
     }
 
-	public void setAwsSecretKey(String awsSecretKey) {
-		this.awsSecretKey = awsSecretKey;
+    public String getEndpoint() {
+        return endpoint;
+    }
+
+	public void setSecretKey(String secretKey) {
+		this.secretKey = secretKey;
 	}
 
 	public void setBucket(String bucket) {
 		this.bucket = bucket;
+	}
+
+	public void setEndpoint(String endpoint) {
+		this.endpoint = endpoint;
 	}
 }

@@ -19,7 +19,7 @@ import com.amazonaws.services.s3.S3ClientOptions;
 @Configuration
 @Profile("cloud")
 public class LocalConfig extends AbstractCloudConfig {
-	
+
 	@Autowired
 	private S3Configuration s3Configuration;
 
@@ -31,15 +31,16 @@ public class LocalConfig extends AbstractCloudConfig {
         DataSourceConfig config = new DataSourceConfig(poolConfig, new DataSourceConfig.ConnectionConfig(""));
 		return connectionFactory().dataSource(config);
 	}
-	
+
 	@Bean
     public S3Connector s3() {
 		S3ClientOptions options = new S3ClientOptions();
 		options.setPathStyleAccess(true);
-		AWSCredentials awsCredentials = new BasicAWSCredentials(
-				s3Configuration.getAwsAccessKey(), s3Configuration.getAwsSecretKey());
-		AmazonS3 amazonS3 = new AmazonS3Client(awsCredentials);
+		AWSCredentials credentials = new BasicAWSCredentials(
+				s3Configuration.getAccessKey(), s3Configuration.getSecretKey());
+		AmazonS3 amazonS3 = new AmazonS3Client(credentials);
 		amazonS3.setS3ClientOptions(options);
+    amazonS3.setEndpoint(s3Configuration.getEndpoint());
 		return new S3Connector(amazonS3, s3Configuration.getBucket());
     }
 
